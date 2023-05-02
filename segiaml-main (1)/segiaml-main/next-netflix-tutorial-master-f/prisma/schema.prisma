@@ -1,0 +1,56 @@
+// Prisma generator 설정
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+// 데이터 소스 설정
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// 사용자 모델 정의
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId // 사용자 ID (고유한 값)
+  name String // 사용자 이름
+  image String? // 사용자 프로필 이미지 URL (선택)
+  email String? @unique // 사용자 이메일 (고유한 값)
+  emailVerified DateTime? // 사용자 이메일 인증 시간 (선택)
+  hashedPassword String? // 사용자 암호화된 비밀번호 (선택)
+  createdAt DateTime @default(now()) // 사용자 생성일
+  updatedAt DateTime @updatedAt // 사용자 업데이트일
+  accounts Account[] // 사용자 연동된 계정 정보 (Account 모델과 연관)
+  favoriteIds String[] @db.ObjectId // 사용자가 좋아하는 영화 ID 리스트
+}
+
+// 연동된 계정 모델 정의
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId // 계정 ID (고유한 값)
+  userId String @db.ObjectId // 연동된 계정의 사용자 ID
+  type String // 연동된 계정 종류 (Google, Facebook 등)
+  provider String // OAuth2 제공자 (Google, Facebook, Kakao 등)
+  providerAccountId String // OAuth2 제공자에서 부여한 계정 ID
+  refresh_token String? @db.String // OAuth2 토큰 중 리프레시 토큰
+  access_token String? @db.String // OAuth2 토큰 중 엑세스 토큰
+  expires_at Int? // OAuth2 토큰 만료 시간 (timestamp)
+  token_type String? // OAuth2 토큰 타입
+  scope String? // OAuth2 토큰 권한 범위
+  id_token String? @db.String // OAuth2 토큰 중 ID 토큰
+  session_state String? // OAuth2 토큰 중 세션 상태
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // 계정과 사용자 모델 간의 관계 정의
+
+  @@unique([provider, providerAccountId]) // provider와 providerAccountId의 조합은 고유한 값
+}
+
+// 영화 모델 정의
+model Movie {
+  id String @id @default(auto()) @map("_id") @db.ObjectId // 영화 ID (고유한 값)
+  title String // 영화 제목
+  description String // 영화 설명
+  videoUrl String // 영화 비디오 URL
+  thumbnailUrl String // 영화 썸네일 URL
+  genre String // 영화 장르
+  duration String // 영화 시간
+}

@@ -1,0 +1,10 @@
+
+class Main{
+    public static void main(String[] args) {
+        Arm arm =new Arm();
+        Leg leg =new leg();
+        new Robot(arm,leg);
+    System.out.println("출력허였습니다.");
+    }
+
+}

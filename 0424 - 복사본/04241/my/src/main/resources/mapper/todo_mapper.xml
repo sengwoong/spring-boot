@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.my.todo.TodoRepository">
+<select id="hello" resultType="java.lang.String">
+
+SELECT content
+FROM todo
+where IDX=1 ;
+</select>
+    <select id="findByIdx" parameterType="java.lang.Integer" resultType="com.example.my.todo.entity.TodoEntity">
+        select idx, content, done_yn, delete_yn, create_date, update_date, delete_date
+        from todo
+        where idx = #{idx};    
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSP Board</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+</script>
+</head>
+<body bgcolor="#FFFFCC" >
+<div align="center"><br/>
+<h2>JSP Board</h2><br/>
+
+
+<form name="listFrm" method="post">
+	<input type="hidden" name="reload" value="true">
+	<input type="hidden" name="nowPage" value="1">
+</form>
+
+<form name="readFrm">
+	<input type="hidden" name="nowPage" value="<%=nowPage%>">
+	<input type="hidden" name="numPerPage" value="<%=numPerPage%>">
+	<input type="hidden" name="keyField" value="<%=keyField%>">
+	<input type="hidden" name="keyWord" value="<%=keyWord%>">
+	<input type="hidden" name="num">
+</form>
+</div>
+</body>
+</html>
